@@ -5,6 +5,7 @@ import java.text.ParseException;
 
 import javax.swing.JFrame;
 
+import function.Function;
 import function.InfixFunction;
 
 public class MainFrame extends JFrame {
@@ -14,23 +15,10 @@ public class MainFrame extends JFrame {
 	private MainPanel panel;
 	
 	public MainFrame() {
-		
-		panel = new MainPanel(800, 600);
-		
-		setTitle("Function Drawer");
-		add(panel);
-		pack();
-		
-		setSize(800, 600);
-		setLocationRelativeTo(null);
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	public static void main(String[] args) {
-		String expr = "(1 + 1";
+		Function func = null;
+		String expr = "x*x - y*y";
 		try {
-			System.out.println("f(0,0) = " + new InfixFunction(expr).evaluate(0.0, 0.0));
+			func = new InfixFunction(expr);
 		} catch (ParseException e) {
 			System.err.println(e.getMessage() + ":");
 			System.err.println(expr);
@@ -45,7 +33,23 @@ public class MainFrame extends JFrame {
 			}
 			System.err.println('^');
 		}
-		/*
+		
+		panel = new MainPanel(800, 600);
+		panel.setFunction(func);
+		//panel.renderColorMap();
+		panel.renderContourLines();
+		
+		setTitle("Function Drawer");
+		add(panel);
+		pack();
+		
+		setResizable(false);
+		setLocationRelativeTo(null);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -53,6 +57,5 @@ public class MainFrame extends JFrame {
 				editor.setVisible(true);
 			}
 		});
-		*/
 	}
 }
