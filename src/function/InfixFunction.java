@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import function.operator.AdditionOperator;
 import function.operator.DivisionOperator;
+import function.operator.MinusOperator;
 import function.operator.MultiplicationOperator;
 import function.operator.NumberOperator;
 import function.operator.Operator;
@@ -17,18 +18,20 @@ public class InfixFunction implements Function {
 	private ArrayList<Operator> operators;
 	private VariableOperator.VarRef argX, argY;
 	
-	int getPriority(String op) {
+	static int getPriority(String op) {
 		switch (op) {
 		case "^":
 			return 1;
+		case "#":
+			return 2;
 		case "*":
-			return 2;
+			return 3;
 		case "/":
-			return 2;
+			return 3;
 		case "+":
-			return 3;
+			return 4;
 		case "-":
-			return 3;
+			return 4;
 		default:
 			return -1;
 		}
@@ -51,6 +54,9 @@ public class InfixFunction implements Function {
 			case "^":
 				// TODO: create power operator
 				throw new ParseException("power operator not implemented yet", t.pos);
+			case "#":
+				operators.add(new MinusOperator());
+				break;
 			case "*":
 				operators.add(new MultiplicationOperator());
 				break;
@@ -156,11 +162,37 @@ public class InfixFunction implements Function {
 			throw new ParseException("expression is empty", 0);
 	}
 	
+	public String eliminateUnary(String expr) {
+		String begin = new String();
+		String end = new String(expr);
+		int pos = -1;
+		while((pos = end.indexOf('-')) >= 0) {
+			begin += end.substring(0, pos);
+			if(pos != 0) {
+				char pc = end.charAt(pos - 1);
+				if(
+				  !Character.isDigit(pc) &&
+				  !Character.isAlphabetic(pc) &&
+				  pc != ')'
+				  ) {
+					begin += '#';
+				} else {
+					begin += '-';
+				}
+			} else {
+				begin += '#';
+			}
+			end = end.substring(pos + 1);
+		}
+		begin += end;
+		return begin;
+	}
+	
 	public InfixFunction(String s) throws ParseException {
 		operators = new ArrayList<Operator>();
 		argX = new VariableOperator.VarRef();
 		argY = new VariableOperator.VarRef();
-		string = s.replaceAll("\\s","");
+		string = eliminateUnary(s.replaceAll("\\s",""));
 		parse();
 	}
 	

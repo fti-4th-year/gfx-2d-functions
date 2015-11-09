@@ -15,7 +15,7 @@ public class Token {
 		VARIABLE = 7;
 	
 	private static boolean isOperator(char c) {
-		return c == '^' || c == '*' || c == '/' || c == '+' || c == '-';
+		return c == '^' || c == '*' || c == '/' || c == '+' || c == '-' || c == '#';
 	}
 	
 	private static boolean isDigit(char c) {

@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
 		
 		panel = new MainPanel(800, 600);
 		panel.setFunction(func);
-		//panel.renderColorMap();
+		panel.renderColorMap();
 		panel.renderContourLines();
 		
 		setTitle("Function Drawer");
