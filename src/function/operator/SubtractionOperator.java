@@ -7,6 +7,10 @@ public class SubtractionOperator implements Operator {
 	public void evaluate(EvaluationStack stack) {
 		double a = stack.pop();
 		double b = stack.pop();
-		stack.push(a - b);
+		stack.push(b - a);
+	}
+	@Override
+	public String toString() {
+		return "-";
 	}
 }

@@ -9,4 +9,8 @@ public class AdditionOperator implements Operator {
 		double b = stack.pop();
 		stack.push(a + b);
 	}
+	@Override
+	public String toString() {
+		return "+";
+	}
 }

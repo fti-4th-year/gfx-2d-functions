@@ -9,4 +9,8 @@ public class MultiplicationOperator implements Operator {
 		double b = stack.pop();
 		stack.push(a*b);
 	}
+	@Override
+	public String toString() {
+		return "*";
+	}
 }

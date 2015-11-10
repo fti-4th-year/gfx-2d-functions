@@ -4,7 +4,11 @@ import function.EvaluationStack;
 
 public class VariableOperator implements Operator {
 	public static class VarRef {
+		public String name;
 		public double value;
+		public VarRef(String n) {
+			name = n;
+		}
 	}
 	
 	private VarRef variable;
@@ -17,5 +21,9 @@ public class VariableOperator implements Operator {
 	public void evaluate(EvaluationStack stack) {
 		stack.push(variable.value);
 	}
-
+	
+	@Override
+	public String toString() {
+		return variable.name;
+	}
 }

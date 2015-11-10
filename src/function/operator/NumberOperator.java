@@ -14,4 +14,9 @@ public class NumberOperator implements Operator {
 	public void evaluate(EvaluationStack stack) {
 		stack.push(number);
 	}
+	
+	@Override
+	public String toString() {
+		return Double.toString(number);
+	}
 }

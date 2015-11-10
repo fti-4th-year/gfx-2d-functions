@@ -7,4 +7,8 @@ public class MinusOperator implements Operator {
 	public void evaluate(EvaluationStack stack) {
 		stack.push(-stack.pop());
 	}
+	@Override
+	public String toString() {
+		return "#";
+	}
 }

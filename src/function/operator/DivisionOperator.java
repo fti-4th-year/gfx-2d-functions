@@ -9,4 +9,8 @@ public class DivisionOperator implements Operator {
 		double b = stack.pop();
 		stack.push(b/a);
 	}
+	@Override
+	public String toString() {
+		return "/";
+	}
 }

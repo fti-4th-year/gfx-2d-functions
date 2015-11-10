@@ -190,10 +190,17 @@ public class InfixFunction implements Function {
 	
 	public InfixFunction(String s) throws ParseException {
 		operators = new ArrayList<Operator>();
-		argX = new VariableOperator.VarRef();
-		argY = new VariableOperator.VarRef();
+		argX = new VariableOperator.VarRef("x");
+		argY = new VariableOperator.VarRef("y");
 		string = eliminateUnary(s.replaceAll("\\s",""));
+		// System.out.println(string);
 		parse();
+		/*
+		for(int i = 0; i < operators.size(); ++i) {
+			System.out.print(operators.get(i).toString() + " ");
+		}
+		System.out.println();
+		*/
 	}
 	
 	@Override
@@ -206,5 +213,4 @@ public class InfixFunction implements Function {
 		}
 		return stack.pop();
 	}
-
 }

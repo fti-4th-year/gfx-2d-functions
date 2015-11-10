@@ -1,5 +1,7 @@
 package drawer;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.text.ParseException;
 
@@ -12,38 +14,38 @@ public class MainFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private MainPanel panel;
+	private MainPanel mainPanel;
+	private SidePanel sidePanel;
+	private TopPanel topPanel;
+	
+	private MainHandle handle;
 	
 	public MainFrame() {
 		Function func = null;
-		String expr = "x*x - y*y";
 		try {
-			func = new InfixFunction(expr);
+			func = new InfixFunction("x*x - y*y");
 		} catch (ParseException e) {
-			System.err.println(e.getMessage() + ":");
-			System.err.println(expr);
-			int offset = e.getErrorOffset() + 1;
-			for(int i = 0; i < expr.length(); ++i) {
-				if(!Character.isWhitespace(expr.charAt(i))) {
-					--offset;
-					if(offset <= 0)
-						break;
-				}
-				System.err.print('~');
-			}
-			System.err.println('^');
+			e.printStackTrace();
 		}
 		
-		panel = new MainPanel(800, 600);
-		panel.setFunction(func);
-		panel.renderColorMap();
-		panel.renderContourLines();
+		mainPanel = new MainPanel(600, 600);
+		mainPanel.setFunction(func);
+		
+		handle = new MainHandle(this, mainPanel);
+		
+		sidePanel = new SidePanel(200);
+		
+		topPanel = new TopPanel(handle, 24);
 		
 		setTitle("Function Drawer");
-		add(panel);
+		add(mainPanel, BorderLayout.CENTER);
+		add(sidePanel, BorderLayout.LINE_END);
+		add(topPanel, BorderLayout.PAGE_START);
 		pack();
 		
-		setResizable(false);
+		setMinimumSize(new Dimension(480, 320));
+		
+		// setResizable(false);
 		setLocationRelativeTo(null);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
