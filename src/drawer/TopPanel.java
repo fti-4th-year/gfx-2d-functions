@@ -32,13 +32,14 @@ public class TopPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				handle.setFunction(textField.getText());
+				handle.update();
 			}
 		};
 		
 		label = new JLabel("Function:");
 		add(label, BorderLayout.LINE_START);
 		
-		textField = new JTextField("x*x - y*y");
+		textField = new JTextField("sin(x)*sin(y)");
 		textField.addActionListener(apply);
 		add(textField, BorderLayout.CENTER);
 		

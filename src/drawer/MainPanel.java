@@ -10,24 +10,29 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 
 import function.Function;
+import function.TransformFunction;
 
-public class MainPanel extends JPanel {
+public class MainPanel extends JPanel implements Updateable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	Function function = null;
-	
+	private Handle handle = null;
 	private Canvas canvas = null;
+	private TransformFunction func;
 	
-	double zoom = 1.0;
-	
-	public MainPanel(int w, int h) {
+	public MainPanel(Handle hnd, int w, int h) {
+		handle = hnd;
+		
 		setPreferredSize(new Dimension(w, h));
 		
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				e.getWheelRotation();
+				int wr = e.getWheelRotation();
+				double m = Math.pow(1.2, wr);
+				func.scaleX *= m;
+				func.scaleY *= m;
+				handle.update();
 			}
 		});
 		
@@ -36,9 +41,10 @@ public class MainPanel extends JPanel {
 			public void componentResized(ComponentEvent e) {
 				canvas = new Canvas(getWidth(), getHeight());
 				update();
-				repaint();
 			}
 		});
+		
+		func = new TransformFunction();
 	}
 	
 	@Override
@@ -50,13 +56,17 @@ public class MainPanel extends JPanel {
 		}
 	}
 	
-	public void setFunction(Function f) {
-		function = f;
-	}
-	
+	@Override
 	public void update() {
-		canvas.setFunction(function);
-		canvas.renderColorMap();
-		canvas.renderContourLines();
+		Function f = handle.getFunction();
+		func.setFunction(f);
+		Context c = handle.getContext();
+		canvas.findMinMax(func, c);
+		canvas.clear();
+		if(c.flagColor)
+			canvas.renderColorMap(func, c);
+		if(c.flagContour)
+			canvas.renderContourLines(func, c);
+		repaint();
 	}
 }

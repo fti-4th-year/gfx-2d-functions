@@ -6,10 +6,12 @@ import java.util.Stack;
 
 import function.operator.AdditionOperator;
 import function.operator.DivisionOperator;
+import function.operator.FunctionOperator;
 import function.operator.MinusOperator;
 import function.operator.MultiplicationOperator;
 import function.operator.NumberOperator;
 import function.operator.Operator;
+import function.operator.PowerOperator;
 import function.operator.SubtractionOperator;
 import function.operator.VariableOperator;
 
@@ -47,13 +49,49 @@ public class InfixFunction implements Function {
 			}
 			break;
 		case Token.FUNCTION:
-			// TODO: create function operator
-			throw new ParseException("unknown function '" + t.string + "'", t.pos);
+			switch (t.string) {
+			case "sin":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.sin(x);}});
+				break;
+			case "cos":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.cos(x);}});
+				break;
+			case "tan":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.tan(x);}});
+				break;
+			case "asin":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.asin(x);}});
+				break;
+			case "acos":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.acos(x);}});
+				break;
+			case "atan":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.atan(x);}});
+				break;
+			case "exp":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.exp(x);}});
+				break;
+			case "sinh":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.sinh(x);}});
+				break;
+			case "cosh":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.cosh(x);}});
+				break;
+			case "tanh":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.tanh(x);}});
+				break;
+			case "log":
+				operators.add(new FunctionOperator() {@Override public double func(double x) {return Math.log(x);}});
+				break;
+			default:
+				throw new ParseException("unknown function '" + t.string + "'", t.pos);
+			}
+			break;
 		case Token.OPERATOR:
 			switch (t.string) {
 			case "^":
-				// TODO: create power operator
-				throw new ParseException("power operator not implemented yet", t.pos);
+				operators.add(new PowerOperator());
+				break;
 			case "#":
 				operators.add(new MinusOperator());
 				break;

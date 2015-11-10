@@ -1,8 +1,10 @@
 package drawer;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,18 +14,35 @@ import function.InfixFunction;
 
 public class MainHandle implements Handle {
 	
-	private JFrame frame;
-	private MainPanel mainPanel;
+	private Function function;
+	private Context context;
 	
-	public MainHandle(JFrame frame, MainPanel mp) {
-		mainPanel = mp;
+	private JFrame frame;
+	private Updateable scene;
+	
+	public MainHandle(JFrame f, Updateable s) {
+		frame = f;
+		scene = s;
+	}
+	
+	@Override
+	public Context getContext() {
+		return context;
+	}
+	
+	@Override
+	public void setContext(Context ctx) {
+		context = ctx;
+	}
+	
+	@Override
+	public Function getFunction() {
+		return function;
 	}
 	
 	@Override
 	public void setFunction(Function f) {
-		mainPanel.setFunction(f);
-		mainPanel.update();
-		mainPanel.repaint();
+		function = f;
 	}
 
 	@Override
@@ -60,5 +79,25 @@ public class MainHandle implements Handle {
 			
 			JOptionPane.showMessageDialog(frame, labels);
 		}
+	}
+	
+	public void setColor(int n, int color) {
+		context.colors[n] = color;
+	}
+	
+	public void selectColor(int n) {
+		Color color = JColorChooser.showDialog(frame, "Choose color", new Color(context.colors[n]));
+		if(color != null) {
+			context.colors[n] = color.getRGB();
+		}
+	}
+	
+	public void setLevelCount(int n) {
+		context.setNum(n);
+	}
+	
+	@Override
+	public void update() {
+		scene.update();
 	}
 }

@@ -1,16 +1,13 @@
 package drawer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.text.ParseException;
 
 import javax.swing.JFrame;
 
-import function.Function;
-import function.InfixFunction;
-
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Updateable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -21,33 +18,22 @@ public class MainFrame extends JFrame {
 	private MainHandle handle;
 	
 	public MainFrame() {
-		Function func = null;
-		try {
-			func = new InfixFunction("x*x - y*y");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		handle = new MainHandle(this, this);
+		handle.setFunction("sin(x)*sin(y)");
+		handle.setContext(new Context(16));
 		
-		mainPanel = new MainPanel(600, 600);
-		mainPanel.setFunction(func);
-		
-		handle = new MainHandle(this, mainPanel);
-		
-		sidePanel = new SidePanel(200);
-		
+		mainPanel = new MainPanel(handle, 600, 600);
+		sidePanel = new SidePanel(handle, 200);
 		topPanel = new TopPanel(handle, 24);
 		
-		setTitle("Function Drawer");
 		add(mainPanel, BorderLayout.CENTER);
 		add(sidePanel, BorderLayout.LINE_END);
 		add(topPanel, BorderLayout.PAGE_START);
 		pack();
 		
+		setTitle("Function Drawer");
 		setMinimumSize(new Dimension(480, 320));
-		
-		// setResizable(false);
 		setLocationRelativeTo(null);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -59,5 +45,11 @@ public class MainFrame extends JFrame {
 				editor.setVisible(true);
 			}
 		});
+	}
+
+	@Override
+	public void update() {
+		mainPanel.update();
+		sidePanel.update();
 	}
 }
