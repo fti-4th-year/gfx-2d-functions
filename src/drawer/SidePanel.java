@@ -26,6 +26,11 @@ public class SidePanel extends JPanel implements Updateable {
 	}
 	
 	@Override
+	public void redraw() {
+		legend.redraw();
+	}
+	
+	@Override
 	public void update() {
 		legend.update();
 	}

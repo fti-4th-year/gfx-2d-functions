@@ -112,4 +112,9 @@ public class MainHandle implements Handle {
 	public void update() {
 		scene.update();
 	}
+	
+	@Override
+	public void redraw() {
+		scene.redraw();
+	}
 }

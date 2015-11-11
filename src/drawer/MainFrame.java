@@ -16,7 +16,7 @@ public class MainFrame extends JFrame implements Updateable {
 	
 	private MainHandle handle;
 	
-	public MainFrame() {
+	public MainFrame() throws Exception {
 		handle = new MainHandle(this, this);
 		handle.setFunction("sin(x)*sin(y)");
 		handle.setContext(new Context(16));
@@ -40,12 +40,23 @@ public class MainFrame extends JFrame implements Updateable {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				MainFrame editor = new MainFrame();
-				editor.setVisible(true);
+				MainFrame editor = null;
+				try {
+					editor = new MainFrame();
+					editor.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
-
+	
+	@Override
+	public void redraw() {
+		mainPanel.redraw();
+		sidePanel.redraw();
+	}
+	
 	@Override
 	public void update() {
 		mainPanel.update();

@@ -2,6 +2,7 @@ package drawer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -140,7 +141,7 @@ public class Canvas {
 	public void renderContourLines(Function func, Context ctx) {
 		Graphics2D g2d = (Graphics2D) image.getGraphics();
 		
-		int sx = width/ctx.sizeContour, sy = height/ctx.sizeContour;
+		int sx = ctx.grid.numX, sy = ctx.grid.numY;
 		double dx = (double) width/(sx - 1), dy = (double) height/(sy - 1);
 		double[] grid = new double[sx*sy];
 		
@@ -161,7 +162,7 @@ public class Canvas {
 		
 		if(ctx.flags.color || ctx.flags.grid) {
 			g2d.setStroke(new BasicStroke(1));
-			g2d.setColor(Color.BLACK);
+			g2d.setColor(new Color(ctx.lineColor));
 		} else {
 			g2d.setStroke(new BasicStroke(3));
 		}
@@ -236,10 +237,10 @@ public class Canvas {
 		ctx.cval = func.evaluate(sfx(ctx.x), sfy(ctx.y));
 	}
 	
-	public void renderSingleContourLine(Function func, Context ctx) {
-		Graphics2D g2d = (Graphics2D) image.getGraphics();
+	public void renderSingleContourLine(Function func, Context ctx, Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
 		
-		int sx = width/ctx.sizeContour, sy = height/ctx.sizeContour;
+		int sx = ctx.grid.numX, sy = ctx.grid.numY;
 		double dx = (double) width/(sx - 1), dy = (double) height/(sy - 1);
 		double[] grid = new double[sx*sy];
 		
@@ -260,7 +261,7 @@ public class Canvas {
 		} else {
 			g2d.setStroke(new BasicStroke(3));
 		}
-		g2d.setColor(Color.BLACK);
+		g2d.setColor(new Color(ctx.lineColor));
 		
 		int[] l = new int[4];
 		double[] v = new double[4];

@@ -81,8 +81,11 @@ public class Legend extends JPanel implements Updateable {
 			canvas.clear(0, 0, canvas.getWidth()/2, canvas.getHeight());
 		if(c.flags.contour)
 			canvas.renderContourLines(linFunc, c);
-		if(c.flags.cursor && c.cursor)
-			canvas.renderSingleContourLine(linFunc, c);
+		repaint();
+	}
+	
+	@Override
+	public void redraw() {
 		repaint();
 	}
 	
@@ -94,6 +97,8 @@ public class Legend extends JPanel implements Updateable {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		if(canvas != null) {
 			g.drawImage(canvas.getImage(), 2, 0, null);
+			if(c.flags.cursor && c.cursor)
+				canvas.renderSingleContourLine(linFunc, c, g);
 			g.setColor(Color.BLACK);
 			for(int i = 0; i < num - 1; ++i) {
 				double val = (i + 0.5)/(num - 1)*(linFunc.max - linFunc.min) + linFunc.min;

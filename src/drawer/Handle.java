@@ -18,4 +18,5 @@ public interface Handle {
 	public void showAbout();
 	
 	public void update();
+	public void redraw();
 }

@@ -46,7 +46,7 @@ public class MainPanel extends JPanel implements Updateable {
 					handle.getContext().cursor = true;
 					handle.getContext().x = e.getPoint().x;
 					handle.getContext().y = e.getPoint().y;
-					handle.update();
+					handle.redraw();
 				}
 			}
 		});
@@ -56,7 +56,7 @@ public class MainPanel extends JPanel implements Updateable {
 			public void mouseExited(MouseEvent e) {
 				if(handle.getContext().flags.cursor) {
 					handle.getContext().cursor = false;
-					handle.update();
+					handle.redraw();
 				}
 			}
 		});
@@ -79,6 +79,16 @@ public class MainPanel extends JPanel implements Updateable {
 		if(canvas != null) {
 			g.drawImage(canvas.getImage(), 0, 0, null);
 		}
+		Context c = handle.getContext();
+		if(c.flags.cursor && c.cursor) {
+			canvas.findCursorValue(func, c);
+			canvas.renderSingleContourLine(func, c, g);
+		}
+	}
+	
+	@Override
+	public void redraw() {
+		repaint();
 	}
 	
 	@Override
@@ -92,10 +102,6 @@ public class MainPanel extends JPanel implements Updateable {
 			canvas.renderColorMap(func, c);
 		if(c.flags.contour)
 			canvas.renderContourLines(func, c);
-		if(c.flags.cursor && c.cursor) {
-			canvas.findCursorValue(func, c);
-			canvas.renderSingleContourLine(func, c);
-		}
 		repaint();
 	}
 }

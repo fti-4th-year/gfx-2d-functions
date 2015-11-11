@@ -22,7 +22,7 @@ public class OptionPanel extends JPanel {
 	
 	JButton about;
 	JSpinner levels;
-	JSpinner gridSize;
+	JSpinner gridNumX, gridNumY;
 	
 	JCheckBox contour;
 	JCheckBox cursor;
@@ -52,7 +52,7 @@ public class OptionPanel extends JPanel {
 		numPanel.add(about);
 		
 		numPanel.add(new JLabel("Levels:"));
-		levels = new JSpinner(new SpinnerNumberModel(16, 2, 64, 1));
+		levels = new JSpinner(new SpinnerNumberModel(handle.getContext().num, 2, 64, 1));
 		levels.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -63,15 +63,24 @@ public class OptionPanel extends JPanel {
 		numPanel.add(levels);
 		
 		numPanel.add(new JLabel("Grid size:"));
-		gridSize = new JSpinner(new SpinnerNumberModel(4, 1, 256, 1));
-		gridSize.addChangeListener(new ChangeListener() {
+		gridNumX = new JSpinner(new SpinnerNumberModel(handle.getContext().grid.numX, 1, 256, 1));
+		gridNumX.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				handle.getContext().sizeContour = (((Integer) gridSize.getValue()).intValue());
+				handle.getContext().grid.numX = (((Integer) gridNumX.getValue()).intValue());
 				handle.update();
 			}
 		});
-		numPanel.add(gridSize);
+		numPanel.add(gridNumX);
+		gridNumY = new JSpinner(new SpinnerNumberModel(handle.getContext().grid.numY, 1, 256, 1));
+		gridNumY.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				handle.getContext().grid.numY = (((Integer) gridNumY.getValue()).intValue());
+				handle.update();
+			}
+		});
+		numPanel.add(gridNumY);
 		
 		add(numPanel);
 		
