@@ -10,10 +10,20 @@ public class Context {
 	public int sizeMinmax = 0x4;
 	public int sizeContour = 0x4;
 	
-	public boolean flagContour = true;
-	public boolean flagColor = true;
-	public boolean flagGrad = false;
-	public boolean flagDither = false;
+	static public class Flags {
+		public boolean contour  = true;
+		public boolean cursor   = true;
+		public boolean grid     = false;
+		public boolean color    = true;
+		public boolean gradient = false;
+		public boolean dither   = false;
+	};
+	
+	Flags flags;
+	
+	public int x = 100, y = 100;
+	public boolean cursor = false;
+	public double cval = 0.0;
 	
 	public Context(int n) {
 		num = n;
@@ -21,6 +31,7 @@ public class Context {
 		for(int i = 0; i < num; ++i) {
 			colors[i] = (int) (Math.random()*0xFFFFFF);
 		}
+		flags = new Flags();
 	}
 	
 	int getIndex(double val) {

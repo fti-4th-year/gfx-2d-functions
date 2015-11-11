@@ -36,7 +36,7 @@ public class TopPanel extends JPanel {
 			}
 		};
 		
-		label = new JLabel("Function:");
+		label = new JLabel(" Function:");
 		add(label, BorderLayout.LINE_START);
 		
 		textField = new JTextField("sin(x)*sin(y)");

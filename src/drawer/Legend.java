@@ -76,17 +76,20 @@ public class Legend extends JPanel implements Updateable {
 		linFunc.max = c.max;
 		num = c.num;
 		canvas.clear();
-		if(c.flagColor)
+		if(c.flags.color)
 			canvas.renderColorMap(linFunc, c);
 			canvas.clear(0, 0, canvas.getWidth()/2, canvas.getHeight());
-		if(c.flagContour)
+		if(c.flags.contour)
 			canvas.renderContourLines(linFunc, c);
+		if(c.flags.cursor && c.cursor)
+			canvas.renderSingleContourLine(linFunc, c);
 		repaint();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
+		Context c = handle.getContext();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		if(canvas != null) {
@@ -97,6 +100,15 @@ public class Legend extends JPanel implements Updateable {
 				String vs = Double.toString(val);
 				vs = vs.substring(0, Math.min(val < 0 ? 7 : 6, vs.length()));
 				g.drawString(vs, 0, (int) (getHeight()*(num - i - 1.5)/(num - 1)) - 2);
+			}
+			if(c.flags.cursor && c.cursor) {
+				double val = c.cval;
+				String vs = Double.toString(val);
+				vs = vs.substring(0, Math.min(val < 0 ? 7 : 6, vs.length()));
+				g.setColor(Color.YELLOW);
+				g.fillRect(0, (int) (getHeight()*(1.0 - (val - c.min)/(c.max - c.min))) - 13, 48, 12);
+				g.setColor(Color.BLACK);
+				g.drawString(vs, 0, (int) (getHeight()*(1.0 - (val - c.min)/(c.max - c.min))) - 2);
 			}
 		}
 		if(level >= 0) {

@@ -15,5 +15,7 @@ public interface Handle {
 	
 	public void setLevelCount(int n);
 	
+	public void showAbout();
+	
 	public void update();
 }

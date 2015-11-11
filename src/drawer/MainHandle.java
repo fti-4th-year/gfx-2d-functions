@@ -77,7 +77,7 @@ public class MainHandle implements Handle {
 			labels[1].setFont(font);
 			labels[2].setFont(font);
 			
-			JOptionPane.showMessageDialog(frame, labels);
+			JOptionPane.showMessageDialog(frame, labels, "Parse error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -94,6 +94,18 @@ public class MainHandle implements Handle {
 	
 	public void setLevelCount(int n) {
 		context.setNum(n);
+	}
+	
+	public void showAbout() {
+		JLabel[] labels = new JLabel[7];
+		labels[0] = new JLabel("Use mouse wheel to zoom.");
+		labels[1] = new JLabel("Click on a legeng to select color.");
+		labels[2] = new JLabel("Enter function in infix form and press 'Enter'.");
+		labels[3] = new JLabel("You can use: ");
+		labels[4] = new JLabel("variables: x, y");
+		labels[5] = new JLabel("operators: '+', '-', '*', '/', '^'");
+		labels[6] = new JLabel("functions: sin, cos, tan, asin, acos, atan, exp, sinh, cosh, tanh, log");
+		JOptionPane.showMessageDialog(frame, labels, "About", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	@Override
